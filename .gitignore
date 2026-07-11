@@ -1,0 +1,11 @@
+obj_dir/
+*.vcd
+*.o
+*.elf
+*.hex
+*.bin
+*.jou
+*.log
+.Xil/
+*.bit
+*.dcp
