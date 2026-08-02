@@ -1,19 +1,24 @@
-module regfile_tb;
-   
-    // DUT Inputs & OUTPUTS
-    reg       clk;
-    reg [4:0]  rs1_addr;
-    reg [4:0]  rs2_addr;
-    reg [4:0]  rd_addr;
-    reg        rd_we;
-    reg [31:0] rd_wdata;
-    wire [31:0]rs1_rdata;
-    wire [31:0]rs2_rdata;
-    
-     
-     // Instantiate DUT
+`timescale 1ns/1ps
 
-    regfile dut(
+module regfile_tb;
+
+    // Inputs
+    reg clk;
+    reg [4:0] rs1_addr;
+    reg [4:0] rs2_addr;
+    reg [4:0] rd_addr;
+    reg rd_we;
+    reg [31:0] rd_wdata;
+
+    // Outputs
+    wire [31:0] rs1_rdata;
+    wire [31:0] rs2_rdata;
+
+    integer total = 0;
+    integer passed = 0;
+
+    // DUT
+    regfile dut (
         .clk(clk),
         .rs1_addr(rs1_addr),
         .rs2_addr(rs2_addr),
@@ -23,14 +28,40 @@ module regfile_tb;
         .rs1_rdata(rs1_rdata),
         .rs2_rdata(rs2_rdata)
     );
-    
-    // Clock Generation
+
+    // Clock
     initial begin
         clk = 0;
-        forever #5 clk=~clk;
-     end
-     
-     initial begin
+        forever #5 clk = ~clk;
+    end
+
+    // Check Task
+    task check;
+        input [31:0] actual;
+        input [31:0] expected;
+        input [255:0] name;
+
+        begin
+            total = total + 1;
+
+            $display("----------------------------------------");
+            $display("%s", name);
+            $display("Expected = %0d", expected);
+            $display("Actual   = %0d", actual);
+
+            if (actual == expected) begin
+                passed = passed + 1;
+                $display("PASS");
+            end
+            else begin
+                $display("FAIL");
+            end
+
+            $display("----------------------------------------\n");
+        end
+    endtask
+
+    initial begin
 
         $dumpfile("regfile.vcd");
         $dumpvars(0, regfile_tb);
@@ -41,135 +72,117 @@ module regfile_tb;
         rd_we    = 0;
         rd_wdata = 0;
 
-        #10;  
+        //--------------------------------------------------
         // Test 1 : Write 100 to x1
-        
-        $display("Test 1 : Write 100 to x1");
-        
-        rd_addr = 5'd1;
-        rd_wdata = 32'd100;
-        rd_we = 1;
-        
+        //--------------------------------------------------
+
+        rd_addr   = 5'd1;
+        rd_wdata  = 32'd100;
+        rd_we     = 1;
+
         @(posedge clk);
-        #1
+        #1;
+
         rd_we = 0;
         rs1_addr = 5'd1;
-        
-        
-        #4; 
-        
 
-        if (rs1_rdata == 32'd100)
-            $display("PASS: x1 = %d", rs1_rdata);
-        else
-            $display("FAIL: Expected 100, Got %d", rs1_rdata);
-        
+        #1;
+
+        check(rs1_rdata, 32'd100, "Write 100 to x1");
+
+        //--------------------------------------------------
         // Test 2 : Write 200 to x2
+        //--------------------------------------------------
 
-        $display("Test 2 : Write 200 to x2");
-        
-        rd_addr = 5'd2;
-        rd_wdata = 32'd200;
-        rd_we = 1;
-        
+        rd_addr   = 5'd2;
+        rd_wdata  = 32'd200;
+        rd_we     = 1;
+
         @(posedge clk);
-        #1
+        #1;
+
         rd_we = 0;
         rs2_addr = 5'd2;
-        #4
-        
 
-        if (rs2_rdata == 32'd200)
-            $display("PASS: x2 = %d", rs2_rdata);
-        else
-            $display("FAIL: Expected 200, Got %d", rs2_rdata);
-       
-        // Test 3 : Simultaneous Read
-        
-        $display("Test 3 : Read x1 and x2");
-        
+        #1;
+
+        check(rs2_rdata, 32'd200, "Write 200 to x2");
+
+        //--------------------------------------------------
+        // Test 3 : Read x1 and x2
+        //--------------------------------------------------
+
         rs1_addr = 5'd1;
         rs2_addr = 5'd2;
-        
-       
-        if (rs1_rdata == 32'd100 && rs2_rdata == 32'd200) begin
-            $display("x1 = %d", rs1_rdata);
-            $display("x2 = %d", rs2_rdata);
-            $display("PASS");
-        end
-        else begin
-            $display("FAIL: x1=%d x2=%d", rs1_rdata, rs2_rdata);
-        end
-        
-        // Test 4 : Attempt Write to x0
-        $display("TTest 4 : Attempt Write to x0");
-        rd_addr = 5'd0;
-        rd_wdata = 32'd100;
-        rd_we = 1;
-        
-        @(posedge clk);
-        #1
-        rd_we = 0;
-        rs2_addr = 5'd0;
-        #4
-        
 
-        if (rs2_rdata == 32'd0)
-            $display("PASS: x0 remained zero");
-        else
-            $display("FAIL: x0 = %d", rs2_rdata);
-        
-        
+        #1;
+
+        check(rs1_rdata, 32'd100, "Read x1");
+        check(rs2_rdata, 32'd200, "Read x2");
+
+        //--------------------------------------------------
+        // Test 4 : Attempt write to x0
+        //--------------------------------------------------
+
+        rd_addr   = 5'd0;
+        rd_wdata  = 32'd999;
+        rd_we     = 1;
+
+        @(posedge clk);
+        #1;
+
+        rd_we = 0;
+        rs1_addr = 5'd0;
+
+        #1;
+
+        check(rs1_rdata, 32'd0, "x0 remains zero");
+
+        //--------------------------------------------------
         // Test 5 : Write Disabled
-        $display("Test 5 : Write Disabled");
-        
-        rd_addr = 5'd3;
-        rd_wdata = 32'd100;
-        rd_we = 0;
-        
+        //--------------------------------------------------
+
+        rd_addr   = 5'd3;
+        rd_wdata  = 32'd100;
+        rd_we     = 0;
+
         @(posedge clk);
-        #1
-        
+        #1;
+
         rs1_addr = 5'd3;
-        #1
-   
-        if (rs1_rdata == 32'd0)
-            $display("PASS: Write disabled");
-        else
-            $display("FAIL: x3 = %d", rs1_rdata);
-        #3
-         // Test 6 : Overwrite x1
-         
-        $display("Test 6 : Overwrite x1");
-        
-        rd_addr = 5'd1;
-        rd_wdata = 32'd50;
-        rd_we = 1;
-        
+
+        #1;
+
+        check(rs1_rdata, 32'd0, "Write disabled");
+
+        //--------------------------------------------------
+        // Test 6 : Overwrite x1
+        //--------------------------------------------------
+
+        rd_addr   = 5'd1;
+        rd_wdata  = 32'd50;
+        rd_we     = 1;
+
         @(posedge clk);
-        #1
+        #1;
+
         rd_we = 0;
         rs1_addr = 5'd1;
-        
-        #4;
 
-        if (rs1_rdata == 32'd50)
-            $display("PASS: x1 overwritten correctly");
-        else
-            $display("FAIL: Expected 50, Got %d", rs1_rdata);
-        
-        // End Simulation
-        $display("--------------------------------");
-        $display("Simulation Finished Successfully");
-        $display("--------------------------------");
+        #1;
+
+        check(rs1_rdata, 32'd50, "Overwrite x1");
+
+        //--------------------------------------------------
+        // Summary
+        //--------------------------------------------------
+
+        $display("========================================");
+        $display("Tests Passed : %0d / %0d", passed, total);
+        $display("========================================");
+
         $finish;
 
-        ;
-        
-    
-  
     end
-    
+
 endmodule
-
-
