@@ -1,4 +1,5 @@
-tb_regfile.o: ../tb/tb_regfile.cpp Vregfile.h \
+verilated_timing.o: /usr/share/verilator/include/verilated_timing.cpp \
+ /usr/share/verilator/include/verilated_timing.h \
  /usr/share/verilator/include/verilated.h \
  /usr/share/verilator/include/verilatedos.h \
  /usr/share/verilator/include/verilated_config.h \

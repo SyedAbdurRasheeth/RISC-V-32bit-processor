@@ -5,37 +5,30 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VREGFILE_H_
-#define VERILATED_VREGFILE_H_  // guard
+#ifndef VERILATED_VREGFILE_TB_H_
+#define VERILATED_VREGFILE_TB_H_  // guard
 
 #include "verilated.h"
 
-class Vregfile__Syms;
-class Vregfile___024root;
+class Vregfile_tb__Syms;
+class Vregfile_tb___024root;
+class VerilatedVcdC;
 
 // This class is the main interface to the Verilated model
-class alignas(VL_CACHE_LINE_BYTES) Vregfile VL_NOT_FINAL : public VerilatedModel {
+class alignas(VL_CACHE_LINE_BYTES) Vregfile_tb VL_NOT_FINAL : public VerilatedModel {
   private:
     // Symbol table holding complete model state (owned by this class)
-    Vregfile__Syms* const vlSymsp;
+    Vregfile_tb__Syms* const vlSymsp;
 
   public:
 
     // CONSTEXPR CAPABILITIES
     // Verilated with --trace?
-    static constexpr bool traceCapable = false;
+    static constexpr bool traceCapable = true;
 
     // PORTS
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
-    VL_IN8(&clk,0,0);
-    VL_IN8(&rs1_addr,4,0);
-    VL_IN8(&rs2_addr,4,0);
-    VL_IN8(&rd_addr,4,0);
-    VL_IN8(&rd_we,0,0);
-    VL_IN(&rd_wdata,31,0);
-    VL_OUT(&rs1_rdata,31,0);
-    VL_OUT(&rs2_rdata,31,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
@@ -43,29 +36,29 @@ class alignas(VL_CACHE_LINE_BYTES) Vregfile VL_NOT_FINAL : public VerilatedModel
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    Vregfile___024root* const rootp;
+    Vregfile_tb___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit Vregfile(VerilatedContext* contextp, const char* name = "TOP");
-    explicit Vregfile(const char* name = "TOP");
+    explicit Vregfile_tb(VerilatedContext* contextp, const char* name = "TOP");
+    explicit Vregfile_tb(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~Vregfile();
+    virtual ~Vregfile_tb();
   private:
-    VL_UNCOPYABLE(Vregfile);  ///< Copying not allowed
+    VL_UNCOPYABLE(Vregfile_tb);  ///< Copying not allowed
 
   public:
     // API METHODS
     /// Evaluate the model.  Application must call when inputs change.
-    void eval() { eval_step(); }
+    void eval() { eval_step(); eval_end_step(); }
     /// Evaluate when calling multiple units/models per time step.
     void eval_step();
     /// Evaluate at end of a timestep for tracing, when using eval_step().
     /// Application must call after all eval() and before time changes.
-    void eval_end_step() {}
+    void eval_end_step();
     /// Simulation complete, run final blocks.  Application must call on completion.
     void final();
     /// Are there scheduled events to handle?
@@ -87,6 +80,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vregfile VL_NOT_FINAL : public VerilatedModel
     /// Re-init after cloning the model at the process level (e.g. fork in Linux)
     /// Re-allocate necessary resources. Called after cloning.
     void atClone() const;
+    std::unique_ptr<VerilatedTraceConfig> traceConfig() const override final;
   private:
     // Internal functions - trace registration
     void traceBaseModel(VerilatedTraceBaseC* tfp, int levels, int options);
