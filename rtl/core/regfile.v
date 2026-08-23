@@ -1,5 +1,5 @@
 module regfile (
-input       clk,
+    input       clk,
     input [4:0]  rs1_addr,
     input [4:0]  rs2_addr,
     input [4:0]  rd_addr,
