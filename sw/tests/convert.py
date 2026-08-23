@@ -1,4 +1,4 @@
-data = open('cpu_top_test1.bin', 'rb').read()
+data = open('cpu_top_test2.bin', 'rb').read()
 
 with open("program.hex", "w") as f:
     for i in range(0, len(data), 4):

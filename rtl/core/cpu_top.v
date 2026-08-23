@@ -5,6 +5,10 @@ module cpu_top(
     input rst
 );
 
+    `ifndef PROGRAM_FILE
+        `define PROGRAM_FILE "program.hex"
+    `endif
+
     //PROGRAM COUNTER
     reg [31:0] pc;
 
@@ -20,9 +24,9 @@ module cpu_top(
     //INSTRUCTION MEMORY
     reg [31:0] imem[0:1023];
     wire [31:0] instruction = imem[pc[11:2]];
-
+    
     initial begin
-        $readmemh("program.hex" , imem);
+        $readmemh(`PROGRAM_FILE, imem);
     end
 
     //DECODING INSTRUCTION

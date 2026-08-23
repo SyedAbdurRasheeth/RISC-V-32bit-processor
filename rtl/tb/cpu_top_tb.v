@@ -5,6 +5,8 @@ module cpu_top_tb;
     reg clk;
     reg rst;
 
+    integer errors;
+
     // Instantiate CPU
     cpu_top dut (
         .clk(clk),
@@ -15,6 +17,8 @@ module cpu_top_tb;
     always #5 clk = ~clk;
 
     initial begin
+
+        errors = 0;
 
         // Initial values
         clk = 0;
@@ -40,15 +44,46 @@ module cpu_top_tb;
         $display("x8 (expect 1):  %0d", $signed(dut.rf.regs[8]));
         $display("x9 (expect 0):  %0d", $signed(dut.rf.regs[9]));
 
+        // Check expected values
+        if (dut.rf.regs[3] !== 32'd8)
+            errors = errors + 1;
+
+        if (dut.rf.regs[4] !== 32'd2)
+            errors = errors + 1;
+
+        if (dut.rf.regs[5] !== 32'd1)
+            errors = errors + 1;
+
+        if (dut.rf.regs[6] !== 32'd7)
+            errors = errors + 1;
+
+        if (dut.rf.regs[7] !== 32'd6)
+            errors = errors + 1;
+
+        if (dut.rf.regs[8] !== 32'd1)
+            errors = errors + 1;
+
+        if (dut.rf.regs[9] !== 32'd0)
+            errors = errors + 1;
+
         $display("----------------------------------------");
 
-        $finish;
+        // Final result
+        if (errors == 0) begin
+            $display("TEST PASSED");
+            $finish;
+        end
+        else begin
+            $display("TEST FAILED: %0d errors", errors);
+            $fatal(1);
+        end
+
     end
 
     // Waveform dump
     initial begin
         $dumpfile("waveform.vcd");
-        $dumpvars(0, tb_cpu_top);
+        $dumpvars(0, cpu_top_tb);
     end
 
 endmodule
