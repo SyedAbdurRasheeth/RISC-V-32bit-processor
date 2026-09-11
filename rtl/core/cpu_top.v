@@ -39,7 +39,7 @@ module cpu_top(
     wire       funct7_bit5 = instruction[30];
 
     //CONTROL UNIT
-    wire reg_write, alu_src;
+    wire reg_write, alu_src, mem_read, mem_write, mem_to_reg;
     wire [3:0] alu_ctrl;
 
     control_unit cu (
@@ -49,7 +49,10 @@ module cpu_top(
     .funct7_bit5(funct7_bit5),
     .reg_write(reg_write),
     .alu_src(alu_src),
-    .alu_ctrl(alu_ctrl)
+    .alu_ctrl(alu_ctrl),
+    .mem_read(mem_read),
+    .mem_write(mem_write),
+    .mem_to_reg(mem_to_reg)
 
     );
 
@@ -90,6 +93,21 @@ module cpu_top(
         .zero(alu_zero)
     );
 
-    assign rd_wdata = alu_result;
+    wire[31:0] mem_rdata;
+    data_mem mem(
+        .clk(clk),
+        .addr(alu_result),
+        .wdata(rs2_rdata),
+        .mem_read(mem_read),
+        .mem_write(mem_write),
+        .funct3(funct3),
+        .rdata(mem_rdata) 
+    ); 
+
+    
+
+
+    
+    assign rd_wdata = mem_to_reg ? mem_rdata : alu_result;
 
 endmodule

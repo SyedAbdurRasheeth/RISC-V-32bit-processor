@@ -6,12 +6,17 @@ module control_unit(
     input        funct7_bit5,
     output reg       alu_src,
     output reg       reg_write,
-    output reg [3:0] alu_ctrl
+    output reg [3:0] alu_ctrl,
+    output mem_read,
+    output mem_write, 
+    output mem_to_reg
 
 );
 
-    localparam OPCODE_R = 7'b0110011;
-    localparam OPCODE_I = 7'b0010011;
+    localparam OPCODE_R     = 7'b0110011;
+    localparam OPCODE_I     = 7'b0010011;
+    localparam OPCODE_LOAD  = 7'b0000011;
+    localparam OPCODE_STORE = 7'b0100011;
 
 
     localparam ALU_ADD = 4'b0000;
@@ -30,6 +35,9 @@ module control_unit(
         alu_src = 1'b0;
         reg_write = 1'b0;
         alu_ctrl = 4'b0000;
+        mem_read   = 1'b0;
+        mem_write  = 1'b0;
+        mem_to_reg = 1'b0;
 
         case(opcode)
             
@@ -72,10 +80,32 @@ module control_unit(
                 endcase
             end
 
+
+
+            OPCODE_LOAD : begin
+                reg_write  = 1'b1;
+                alu_src =  1'b1;
+                alu_ctrl = 4'b0000;
+                mem_read = 1'b1;
+                mem_to_reg = 1'b1;
+            end
+
+            OPCODE_STORE : begin
+                reg_write  = 1'b0;
+                alu_src =  1'b1;
+                alu_ctrl = 4'b0000;
+                mem_write = 1'b1;
+                mem_to_reg = 1'b0;
+            end
+            
+
             default: begin
                 reg_write = 1'b0;
                 alu_src = 1'b0;
                 alu_ctrl= 4'b0000;
+                mem_read   = 1'b0;
+                mem_write  = 1'b0;
+                mem_to_reg = 1'b0;
             end
         endcase
     end

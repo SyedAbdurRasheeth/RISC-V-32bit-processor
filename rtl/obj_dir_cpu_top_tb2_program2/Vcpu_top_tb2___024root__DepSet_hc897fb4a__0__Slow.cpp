@@ -14,6 +14,8 @@ VL_ATTR_COLD void Vcpu_top_tb2___024root___eval_initial__TOP(Vcpu_top_tb2___024r
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vcpu_top_tb2___024root___eval_initial__TOP\n"); );
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Init
+    IData/*31:0*/ cpu_top_tb2__DOT__dut__DOT__mem__DOT__i;
+    cpu_top_tb2__DOT__dut__DOT__mem__DOT__i = 0;
     VlWide<3>/*95:0*/ __Vtemp_1;
     // Body
     __Vtemp_1[0U] = 0x2e766364U;
@@ -56,6 +58,13 @@ VL_ATTR_COLD void Vcpu_top_tb2___024root___eval_initial__TOP(Vcpu_top_tb2___024r
     vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rf__DOT__regs[0x1dU] = 0U;
     vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rf__DOT__regs[0x1eU] = 0U;
     vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rf__DOT__regs[0x1fU] = 0U;
+    cpu_top_tb2__DOT__dut__DOT__mem__DOT__i = 0U;
+    while (VL_GTS_III(32, 0x1000U, cpu_top_tb2__DOT__dut__DOT__mem__DOT__i)) {
+        vlSelfRef.cpu_top_tb2__DOT__dut__DOT__mem__DOT__mem[(0xfffU 
+                                                             & cpu_top_tb2__DOT__dut__DOT__mem__DOT__i)] = 0U;
+        cpu_top_tb2__DOT__dut__DOT__mem__DOT__i = ((IData)(1U) 
+                                                   + cpu_top_tb2__DOT__dut__DOT__mem__DOT__i);
+    }
 }
 
 #ifdef VL_DEBUG
