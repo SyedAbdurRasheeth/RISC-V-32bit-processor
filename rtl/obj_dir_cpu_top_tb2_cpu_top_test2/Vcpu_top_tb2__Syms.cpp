@@ -18,7 +18,7 @@ Vcpu_top_tb2__Syms::Vcpu_top_tb2__Syms(VerilatedContext* contextp, const char* n
     , TOP{this, namep}
 {
         // Check resources
-        Verilated::stackCheck(134);
+        Verilated::stackCheck(182);
     // Configure time unit / time precision
     _vm_contextp__->timeunit(-9);
     _vm_contextp__->timeprecision(-12);

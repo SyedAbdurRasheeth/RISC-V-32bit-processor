@@ -112,37 +112,10 @@ VL_INLINE_OPT void Vloadstore_tb___024root___nba_sequent__TOP__0(Vloadstore_tb__
     SData/*11:0*/ __VdlyDim0__loadstore_tb__DOT__dut__DOT__mem__DOT__mem__v6;
     __VdlyDim0__loadstore_tb__DOT__dut__DOT__mem__DOT__mem__v6 = 0;
     // Body
-    __VdlySet__loadstore_tb__DOT__dut__DOT__rf__DOT__regs__v0 = 0U;
     __VdlySet__loadstore_tb__DOT__dut__DOT__mem__DOT__mem__v0 = 0U;
     __VdlySet__loadstore_tb__DOT__dut__DOT__mem__DOT__mem__v1 = 0U;
     __VdlySet__loadstore_tb__DOT__dut__DOT__mem__DOT__mem__v3 = 0U;
-    VL_WRITEF_NX("PC=%x INST=%x | rs1=%2# rs1=%x | rs2=%2# rs2=%x | IMM=%x | ALU=%x | MR=%b MW=%b F3=%b | MEM=%x | RD=%2# WB=%x\n",0,
-                 32,vlSelfRef.loadstore_tb__DOT__dut__DOT__pc,
-                 32,vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction,
-                 5,(IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1),
-                 32,vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1_rdata,
-                 5,(IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__rs2),
-                 32,vlSelfRef.loadstore_tb__DOT__dut__DOT__rs2_rdata,
-                 32,vlSelfRef.loadstore_tb__DOT__dut__DOT__im_out,
-                 32,vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_result,
-                 1,(IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__mem_read),
-                 1,vlSelfRef.loadstore_tb__DOT__dut__DOT__mem_write,
-                 3,(IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__funct3),
-                 32,vlSelfRef.loadstore_tb__DOT__dut__DOT__mem_rdata,
-                 5,(IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__rd),
-                 32,((IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__mem_to_reg)
-                      ? vlSelfRef.loadstore_tb__DOT__dut__DOT__mem_rdata
-                      : vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_result));
-    if (((IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__reg_write) 
-         & (0U != (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__rd)))) {
-        __VdlyVal__loadstore_tb__DOT__dut__DOT__rf__DOT__regs__v0 
-            = ((IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__mem_to_reg)
-                ? vlSelfRef.loadstore_tb__DOT__dut__DOT__mem_rdata
-                : vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_result);
-        __VdlyDim0__loadstore_tb__DOT__dut__DOT__rf__DOT__regs__v0 
-            = vlSelfRef.loadstore_tb__DOT__dut__DOT__rd;
-        __VdlySet__loadstore_tb__DOT__dut__DOT__rf__DOT__regs__v0 = 1U;
-    }
+    __VdlySet__loadstore_tb__DOT__dut__DOT__rf__DOT__regs__v0 = 0U;
     if (vlSelfRef.loadstore_tb__DOT__dut__DOT__mem_write) {
         if ((0U == (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__funct3))) {
             __VdlyVal__loadstore_tb__DOT__dut__DOT__mem__DOT__mem__v0 
@@ -184,9 +157,17 @@ VL_INLINE_OPT void Vloadstore_tb___024root___nba_sequent__TOP__0(Vloadstore_tb__
                 = (0xfffU & ((IData)(3U) + vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_result));
         }
     }
-    if (__VdlySet__loadstore_tb__DOT__dut__DOT__rf__DOT__regs__v0) {
-        vlSelfRef.loadstore_tb__DOT__dut__DOT__rf__DOT__regs[__VdlyDim0__loadstore_tb__DOT__dut__DOT__rf__DOT__regs__v0] 
-            = __VdlyVal__loadstore_tb__DOT__dut__DOT__rf__DOT__regs__v0;
+    if (((IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__reg_write) 
+         & (0U != (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__rd)))) {
+        __VdlyVal__loadstore_tb__DOT__dut__DOT__rf__DOT__regs__v0 
+            = ((1U == (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__wb_sel))
+                ? vlSelfRef.loadstore_tb__DOT__dut__DOT__mem_rdata
+                : ((2U == (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__wb_sel))
+                    ? ((IData)(4U) + vlSelfRef.loadstore_tb__DOT__dut__DOT__pc)
+                    : vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_result));
+        __VdlyDim0__loadstore_tb__DOT__dut__DOT__rf__DOT__regs__v0 
+            = vlSelfRef.loadstore_tb__DOT__dut__DOT__rd;
+        __VdlySet__loadstore_tb__DOT__dut__DOT__rf__DOT__regs__v0 = 1U;
     }
     if (__VdlySet__loadstore_tb__DOT__dut__DOT__mem__DOT__mem__v0) {
         vlSelfRef.loadstore_tb__DOT__dut__DOT__mem__DOT__mem[__VdlyDim0__loadstore_tb__DOT__dut__DOT__mem__DOT__mem__v0] 
@@ -208,13 +189,22 @@ VL_INLINE_OPT void Vloadstore_tb___024root___nba_sequent__TOP__0(Vloadstore_tb__
         vlSelfRef.loadstore_tb__DOT__dut__DOT__mem__DOT__mem[__VdlyDim0__loadstore_tb__DOT__dut__DOT__mem__DOT__mem__v6] 
             = __VdlyVal__loadstore_tb__DOT__dut__DOT__mem__DOT__mem__v6;
     }
+    if (__VdlySet__loadstore_tb__DOT__dut__DOT__rf__DOT__regs__v0) {
+        vlSelfRef.loadstore_tb__DOT__dut__DOT__rf__DOT__regs[__VdlyDim0__loadstore_tb__DOT__dut__DOT__rf__DOT__regs__v0] 
+            = __VdlyVal__loadstore_tb__DOT__dut__DOT__rf__DOT__regs__v0;
+    }
 }
 
-extern const VlUnpacked<CData/*0:0*/, 2048> Vloadstore_tb__ConstPool__TABLE_he4914283_0;
-extern const VlUnpacked<CData/*0:0*/, 2048> Vloadstore_tb__ConstPool__TABLE_hb7f1d378_0;
+extern const VlUnpacked<CData/*0:0*/, 2048> Vloadstore_tb__ConstPool__TABLE_h166e4241_0;
+extern const VlUnpacked<CData/*0:0*/, 2048> Vloadstore_tb__ConstPool__TABLE_he6d0abef_0;
 extern const VlUnpacked<CData/*3:0*/, 2048> Vloadstore_tb__ConstPool__TABLE_h9f17eced_0;
 extern const VlUnpacked<CData/*0:0*/, 2048> Vloadstore_tb__ConstPool__TABLE_h6eb94307_0;
 extern const VlUnpacked<CData/*0:0*/, 2048> Vloadstore_tb__ConstPool__TABLE_h77df0047_0;
+extern const VlUnpacked<CData/*1:0*/, 2048> Vloadstore_tb__ConstPool__TABLE_h6a75275c_0;
+extern const VlUnpacked<CData/*0:0*/, 2048> Vloadstore_tb__ConstPool__TABLE_h0e6b8061_0;
+extern const VlUnpacked<CData/*0:0*/, 2048> Vloadstore_tb__ConstPool__TABLE_h61101785_0;
+extern const VlUnpacked<CData/*0:0*/, 2048> Vloadstore_tb__ConstPool__TABLE_hb43972ed_0;
+extern const VlUnpacked<CData/*1:0*/, 2048> Vloadstore_tb__ConstPool__TABLE_heca81d36_0;
 
 VL_INLINE_OPT void Vloadstore_tb___024root___nba_sequent__TOP__1(Vloadstore_tb___024root* vlSelf) {
     (void)vlSelf;  // Prevent unused variable warning
@@ -222,6 +212,8 @@ VL_INLINE_OPT void Vloadstore_tb___024root___nba_sequent__TOP__1(Vloadstore_tb__
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vloadstore_tb___024root___nba_sequent__TOP__1\n"); );
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Init
+    IData/*31:0*/ loadstore_tb__DOT__dut__DOT__instruction;
+    loadstore_tb__DOT__dut__DOT__instruction = 0;
     CData/*6:0*/ loadstore_tb__DOT__dut__DOT__opcode;
     loadstore_tb__DOT__dut__DOT__opcode = 0;
     SData/*10:0*/ __Vtableidx1;
@@ -229,9 +221,7 @@ VL_INLINE_OPT void Vloadstore_tb___024root___nba_sequent__TOP__1(Vloadstore_tb__
     // Body
     vlSelfRef.loadstore_tb__DOT__dut__DOT__pc = ((IData)(vlSelfRef.loadstore_tb__DOT__rst)
                                                   ? 0U
-                                                  : 
-                                                 ((IData)(4U) 
-                                                  + vlSelfRef.loadstore_tb__DOT__dut__DOT__pc));
+                                                  : vlSelfRef.loadstore_tb__DOT__dut__DOT__next_pc);
     vlSelfRef.loadstore_tb__DOT__dut__DOT__rd = (0x1fU 
                                                  & (vlSelfRef.loadstore_tb__DOT__dut__DOT__imem
                                                     [
@@ -246,10 +236,6 @@ VL_INLINE_OPT void Vloadstore_tb___024root___nba_sequent__TOP__1(Vloadstore_tb__
                                                       & (vlSelfRef.loadstore_tb__DOT__dut__DOT__pc 
                                                          >> 2U))] 
                                                      >> 0xfU));
-    vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
-        = vlSelfRef.loadstore_tb__DOT__dut__DOT__imem
-        [(0x3ffU & (vlSelfRef.loadstore_tb__DOT__dut__DOT__pc 
-                    >> 2U))];
     vlSelfRef.loadstore_tb__DOT__dut__DOT__rs2 = (0x1fU 
                                                   & (vlSelfRef.loadstore_tb__DOT__dut__DOT__imem
                                                      [
@@ -257,6 +243,9 @@ VL_INLINE_OPT void Vloadstore_tb___024root___nba_sequent__TOP__1(Vloadstore_tb__
                                                       & (vlSelfRef.loadstore_tb__DOT__dut__DOT__pc 
                                                          >> 2U))] 
                                                      >> 0x14U));
+    loadstore_tb__DOT__dut__DOT__instruction = vlSelfRef.loadstore_tb__DOT__dut__DOT__imem
+        [(0x3ffU & (vlSelfRef.loadstore_tb__DOT__dut__DOT__pc 
+                    >> 2U))];
     vlSelfRef.loadstore_tb__DOT__dut__DOT__funct3 = 
         (7U & (vlSelfRef.loadstore_tb__DOT__dut__DOT__imem
                [(0x3ffU & (vlSelfRef.loadstore_tb__DOT__dut__DOT__pc 
@@ -275,41 +264,41 @@ VL_INLINE_OPT void Vloadstore_tb___024root___nba_sequent__TOP__1(Vloadstore_tb__
                                ? ((2U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                    ? ((1U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                        ? (((- (IData)(
-                                                      (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                                      (loadstore_tb__DOT__dut__DOT__instruction 
                                                        >> 0x1fU))) 
                                            << 0x14U) 
                                           | (((0xff000U 
-                                               & vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction) 
+                                               & loadstore_tb__DOT__dut__DOT__instruction) 
                                               | (0x800U 
-                                                 & (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                                 & (loadstore_tb__DOT__dut__DOT__instruction 
                                                     >> 9U))) 
                                              | (0x7feU 
-                                                & (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                                & (loadstore_tb__DOT__dut__DOT__instruction 
                                                    >> 0x14U))))
                                        : 0U) : 0U) : 0U)
                            : ((4U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                ? ((2U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                    ? ((1U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                        ? (((- (IData)(
-                                                      (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                                      (loadstore_tb__DOT__dut__DOT__instruction 
                                                        >> 0x1fU))) 
                                            << 0xcU) 
-                                          | (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                          | (loadstore_tb__DOT__dut__DOT__instruction 
                                              >> 0x14U))
                                        : 0U) : 0U) : 
                               ((2U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                 ? ((1U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                     ? (((- (IData)(
-                                                   (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                                   (loadstore_tb__DOT__dut__DOT__instruction 
                                                     >> 0x1fU))) 
                                         << 0xcU) | 
-                                       ((0x800U & (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                       ((0x800U & (loadstore_tb__DOT__dut__DOT__instruction 
                                                    << 4U)) 
                                         | ((0x7e0U 
-                                            & (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                            & (loadstore_tb__DOT__dut__DOT__instruction 
                                                >> 0x14U)) 
                                            | (0x1eU 
-                                              & (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                              & (loadstore_tb__DOT__dut__DOT__instruction 
                                                  >> 7U)))))
                                     : 0U) : 0U)))) : 0U)
           : ((0x20U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
@@ -319,21 +308,21 @@ VL_INLINE_OPT void Vloadstore_tb___024root___nba_sequent__TOP__1(Vloadstore_tb__
                                ? ((2U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                    ? ((1U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                        ? (0xfffff000U 
-                                          & vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction)
+                                          & loadstore_tb__DOT__dut__DOT__instruction)
                                        : 0U) : 0U) : 0U))
                   : ((8U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                       ? 0U : ((4U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                ? 0U : ((2U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                         ? ((1U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                             ? (((- (IData)(
-                                                           (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                                           (loadstore_tb__DOT__dut__DOT__instruction 
                                                             >> 0x1fU))) 
                                                 << 0xcU) 
                                                | ((0xfe0U 
-                                                   & (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                                   & (loadstore_tb__DOT__dut__DOT__instruction 
                                                       >> 0x14U)) 
                                                   | (0x1fU 
-                                                     & (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                                     & (loadstore_tb__DOT__dut__DOT__instruction 
                                                         >> 7U))))
                                             : 0U) : 0U))))
               : ((0x10U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
@@ -342,15 +331,15 @@ VL_INLINE_OPT void Vloadstore_tb___024root___nba_sequent__TOP__1(Vloadstore_tb__
                                ? ((2U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                    ? ((1U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                        ? (0xfffff000U 
-                                          & vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction)
+                                          & loadstore_tb__DOT__dut__DOT__instruction)
                                        : 0U) : 0U) : 
                               ((2U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                 ? ((1U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                     ? (((- (IData)(
-                                                   (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                                   (loadstore_tb__DOT__dut__DOT__instruction 
                                                     >> 0x1fU))) 
                                         << 0xcU) | 
-                                       (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                       (loadstore_tb__DOT__dut__DOT__instruction 
                                         >> 0x14U)) : 0U)
                                 : 0U))) : ((8U & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                             ? 0U : 
@@ -361,10 +350,10 @@ VL_INLINE_OPT void Vloadstore_tb___024root___nba_sequent__TOP__1(Vloadstore_tb__
                                                   & (IData)(loadstore_tb__DOT__dut__DOT__opcode))
                                                   ? 
                                                  (((- (IData)(
-                                                              (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                                              (loadstore_tb__DOT__dut__DOT__instruction 
                                                                >> 0x1fU))) 
                                                    << 0xcU) 
-                                                  | (vlSelfRef.loadstore_tb__DOT__dut__DOT__instruction 
+                                                  | (loadstore_tb__DOT__dut__DOT__instruction 
                                                      >> 0x14U))
                                                   : 0U)
                                               : 0U))))));
@@ -375,10 +364,10 @@ VL_INLINE_OPT void Vloadstore_tb___024root___nba_sequent__TOP__1(Vloadstore_tb__
                                               << 7U) 
                                              | (IData)(loadstore_tb__DOT__dut__DOT__opcode)));
     vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_src 
-        = Vloadstore_tb__ConstPool__TABLE_he4914283_0
+        = Vloadstore_tb__ConstPool__TABLE_h166e4241_0
         [__Vtableidx1];
     vlSelfRef.loadstore_tb__DOT__dut__DOT__reg_write 
-        = Vloadstore_tb__ConstPool__TABLE_hb7f1d378_0
+        = Vloadstore_tb__ConstPool__TABLE_he6d0abef_0
         [__Vtableidx1];
     vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_ctrl 
         = Vloadstore_tb__ConstPool__TABLE_h9f17eced_0
@@ -389,9 +378,22 @@ VL_INLINE_OPT void Vloadstore_tb___024root___nba_sequent__TOP__1(Vloadstore_tb__
     vlSelfRef.loadstore_tb__DOT__dut__DOT__mem_write 
         = Vloadstore_tb__ConstPool__TABLE_h77df0047_0
         [__Vtableidx1];
-    vlSelfRef.loadstore_tb__DOT__dut__DOT__mem_to_reg 
-        = Vloadstore_tb__ConstPool__TABLE_h6eb94307_0
+    vlSelfRef.loadstore_tb__DOT__dut__DOT__wb_sel = 
+        Vloadstore_tb__ConstPool__TABLE_h6a75275c_0
         [__Vtableidx1];
+    vlSelfRef.loadstore_tb__DOT__dut__DOT__branch = 
+        Vloadstore_tb__ConstPool__TABLE_h0e6b8061_0
+        [__Vtableidx1];
+    vlSelfRef.loadstore_tb__DOT__dut__DOT__jump = Vloadstore_tb__ConstPool__TABLE_h61101785_0
+        [__Vtableidx1];
+    vlSelfRef.loadstore_tb__DOT__dut__DOT__jalr = Vloadstore_tb__ConstPool__TABLE_hb43972ed_0
+        [__Vtableidx1];
+    vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_a_sel 
+        = Vloadstore_tb__ConstPool__TABLE_heca81d36_0
+        [__Vtableidx1];
+    vlSelfRef.loadstore_tb__DOT__dut__DOT____VdfgRegularize_hff2ff239_0_1 
+        = (vlSelfRef.loadstore_tb__DOT__dut__DOT__im_out 
+           + vlSelfRef.loadstore_tb__DOT__dut__DOT__pc);
 }
 
 VL_INLINE_OPT void Vloadstore_tb___024root___nba_comb__TOP__0(Vloadstore_tb___024root* vlSelf) {
@@ -400,54 +402,88 @@ VL_INLINE_OPT void Vloadstore_tb___024root___nba_comb__TOP__0(Vloadstore_tb___02
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vloadstore_tb___024root___nba_comb__TOP__0\n"); );
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Init
+    IData/*31:0*/ loadstore_tb__DOT__dut__DOT__rs1_rdata;
+    loadstore_tb__DOT__dut__DOT__rs1_rdata = 0;
+    IData/*31:0*/ loadstore_tb__DOT__dut__DOT__alu_a;
+    loadstore_tb__DOT__dut__DOT__alu_a = 0;
     IData/*31:0*/ loadstore_tb__DOT__dut__DOT__alu_b;
     loadstore_tb__DOT__dut__DOT__alu_b = 0;
     SData/*15:0*/ loadstore_tb__DOT__dut__DOT__mem__DOT__half0;
     loadstore_tb__DOT__dut__DOT__mem__DOT__half0 = 0;
     // Body
-    vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1_rdata 
-        = ((0U == (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1))
-            ? 0U : vlSelfRef.loadstore_tb__DOT__dut__DOT__rf__DOT__regs
-           [vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1]);
+    loadstore_tb__DOT__dut__DOT__rs1_rdata = ((0U == (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1))
+                                               ? 0U
+                                               : vlSelfRef.loadstore_tb__DOT__dut__DOT__rf__DOT__regs
+                                              [vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1]);
     vlSelfRef.loadstore_tb__DOT__dut__DOT__rs2_rdata 
         = ((0U == (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__rs2))
             ? 0U : vlSelfRef.loadstore_tb__DOT__dut__DOT__rf__DOT__regs
            [vlSelfRef.loadstore_tb__DOT__dut__DOT__rs2]);
+    loadstore_tb__DOT__dut__DOT__alu_a = ((1U == (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_a_sel))
+                                           ? vlSelfRef.loadstore_tb__DOT__dut__DOT__pc
+                                           : ((2U == (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_a_sel))
+                                               ? 0U
+                                               : loadstore_tb__DOT__dut__DOT__rs1_rdata));
     loadstore_tb__DOT__dut__DOT__alu_b = ((IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_src)
                                            ? vlSelfRef.loadstore_tb__DOT__dut__DOT__im_out
                                            : vlSelfRef.loadstore_tb__DOT__dut__DOT__rs2_rdata);
+    vlSelfRef.loadstore_tb__DOT__dut__DOT__next_pc 
+        = ((IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__jump)
+            ? ((IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__jalr)
+                ? (0xfffffffeU & (vlSelfRef.loadstore_tb__DOT__dut__DOT__im_out 
+                                  + loadstore_tb__DOT__dut__DOT__rs1_rdata))
+                : vlSelfRef.loadstore_tb__DOT__dut__DOT____VdfgRegularize_hff2ff239_0_1)
+            : (((IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__branch) 
+                & ((4U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__funct3))
+                    ? ((2U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__funct3))
+                        ? ((1U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__funct3))
+                            ? (loadstore_tb__DOT__dut__DOT__rs1_rdata 
+                               >= vlSelfRef.loadstore_tb__DOT__dut__DOT__rs2_rdata)
+                            : (loadstore_tb__DOT__dut__DOT__rs1_rdata 
+                               < vlSelfRef.loadstore_tb__DOT__dut__DOT__rs2_rdata))
+                        : ((1U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__funct3))
+                            ? VL_GTES_III(32, loadstore_tb__DOT__dut__DOT__rs1_rdata, vlSelfRef.loadstore_tb__DOT__dut__DOT__rs2_rdata)
+                            : VL_LTS_III(32, loadstore_tb__DOT__dut__DOT__rs1_rdata, vlSelfRef.loadstore_tb__DOT__dut__DOT__rs2_rdata)))
+                    : ((1U & (~ ((IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__funct3) 
+                                 >> 1U))) && ((1U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__funct3))
+                                               ? (loadstore_tb__DOT__dut__DOT__rs1_rdata 
+                                                  != vlSelfRef.loadstore_tb__DOT__dut__DOT__rs2_rdata)
+                                               : (loadstore_tb__DOT__dut__DOT__rs1_rdata 
+                                                  == vlSelfRef.loadstore_tb__DOT__dut__DOT__rs2_rdata)))))
+                ? vlSelfRef.loadstore_tb__DOT__dut__DOT____VdfgRegularize_hff2ff239_0_1
+                : ((IData)(4U) + vlSelfRef.loadstore_tb__DOT__dut__DOT__pc)));
     vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_result 
         = ((8U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_ctrl))
             ? ((4U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_ctrl))
                 ? 0U : ((2U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_ctrl))
                          ? 0U : ((1U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_ctrl))
-                                  ? ((vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1_rdata 
+                                  ? ((loadstore_tb__DOT__dut__DOT__alu_a 
                                       < loadstore_tb__DOT__dut__DOT__alu_b)
                                       ? 1U : 0U) : 
-                                 (VL_LTS_III(32, vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1_rdata, loadstore_tb__DOT__dut__DOT__alu_b)
+                                 (VL_LTS_III(32, loadstore_tb__DOT__dut__DOT__alu_a, loadstore_tb__DOT__dut__DOT__alu_b)
                                    ? 1U : 0U)))) : 
            ((4U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_ctrl))
              ? ((2U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_ctrl))
                  ? ((1U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_ctrl))
-                     ? VL_SHIFTRS_III(32,32,5, vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1_rdata, 
+                     ? VL_SHIFTRS_III(32,32,5, loadstore_tb__DOT__dut__DOT__alu_a, 
                                       (0x1fU & loadstore_tb__DOT__dut__DOT__alu_b))
-                     : (vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1_rdata 
+                     : (loadstore_tb__DOT__dut__DOT__alu_a 
                         >> (0x1fU & loadstore_tb__DOT__dut__DOT__alu_b)))
                  : ((1U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_ctrl))
-                     ? (vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1_rdata 
+                     ? (loadstore_tb__DOT__dut__DOT__alu_a 
                         << (0x1fU & loadstore_tb__DOT__dut__DOT__alu_b))
-                     : (vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1_rdata 
+                     : (loadstore_tb__DOT__dut__DOT__alu_a 
                         ^ loadstore_tb__DOT__dut__DOT__alu_b)))
              : ((2U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_ctrl))
                  ? ((1U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_ctrl))
-                     ? (vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1_rdata 
+                     ? (loadstore_tb__DOT__dut__DOT__alu_a 
                         | loadstore_tb__DOT__dut__DOT__alu_b)
-                     : (vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1_rdata 
+                     : (loadstore_tb__DOT__dut__DOT__alu_a 
                         & loadstore_tb__DOT__dut__DOT__alu_b))
                  : ((1U & (IData)(vlSelfRef.loadstore_tb__DOT__dut__DOT__alu_ctrl))
-                     ? (vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1_rdata 
+                     ? (loadstore_tb__DOT__dut__DOT__alu_a 
                         - loadstore_tb__DOT__dut__DOT__alu_b)
-                     : (vlSelfRef.loadstore_tb__DOT__dut__DOT__rs1_rdata 
+                     : (loadstore_tb__DOT__dut__DOT__alu_a 
                         + loadstore_tb__DOT__dut__DOT__alu_b)))));
     loadstore_tb__DOT__dut__DOT__mem__DOT__half0 = 
         ((vlSelfRef.loadstore_tb__DOT__dut__DOT__mem__DOT__mem

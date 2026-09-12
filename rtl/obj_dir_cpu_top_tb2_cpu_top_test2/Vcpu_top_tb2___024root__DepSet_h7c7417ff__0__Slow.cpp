@@ -81,11 +81,16 @@ VL_ATTR_COLD void Vcpu_top_tb2___024root___eval_stl(Vcpu_top_tb2___024root* vlSe
     }
 }
 
-extern const VlUnpacked<CData/*0:0*/, 2048> Vcpu_top_tb2__ConstPool__TABLE_he4914283_0;
-extern const VlUnpacked<CData/*0:0*/, 2048> Vcpu_top_tb2__ConstPool__TABLE_hb7f1d378_0;
+extern const VlUnpacked<CData/*0:0*/, 2048> Vcpu_top_tb2__ConstPool__TABLE_h166e4241_0;
+extern const VlUnpacked<CData/*0:0*/, 2048> Vcpu_top_tb2__ConstPool__TABLE_he6d0abef_0;
 extern const VlUnpacked<CData/*3:0*/, 2048> Vcpu_top_tb2__ConstPool__TABLE_h9f17eced_0;
 extern const VlUnpacked<CData/*0:0*/, 2048> Vcpu_top_tb2__ConstPool__TABLE_h6eb94307_0;
 extern const VlUnpacked<CData/*0:0*/, 2048> Vcpu_top_tb2__ConstPool__TABLE_h77df0047_0;
+extern const VlUnpacked<CData/*1:0*/, 2048> Vcpu_top_tb2__ConstPool__TABLE_h6a75275c_0;
+extern const VlUnpacked<CData/*0:0*/, 2048> Vcpu_top_tb2__ConstPool__TABLE_h0e6b8061_0;
+extern const VlUnpacked<CData/*0:0*/, 2048> Vcpu_top_tb2__ConstPool__TABLE_h61101785_0;
+extern const VlUnpacked<CData/*0:0*/, 2048> Vcpu_top_tb2__ConstPool__TABLE_hb43972ed_0;
+extern const VlUnpacked<CData/*1:0*/, 2048> Vcpu_top_tb2__ConstPool__TABLE_heca81d36_0;
 
 VL_ATTR_COLD void Vcpu_top_tb2___024root___stl_sequent__TOP__0(Vcpu_top_tb2___024root* vlSelf) {
     (void)vlSelf;  // Prevent unused variable warning
@@ -93,8 +98,14 @@ VL_ATTR_COLD void Vcpu_top_tb2___024root___stl_sequent__TOP__0(Vcpu_top_tb2___02
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vcpu_top_tb2___024root___stl_sequent__TOP__0\n"); );
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Init
+    IData/*31:0*/ cpu_top_tb2__DOT__dut__DOT__instruction;
+    cpu_top_tb2__DOT__dut__DOT__instruction = 0;
     CData/*6:0*/ cpu_top_tb2__DOT__dut__DOT__opcode;
     cpu_top_tb2__DOT__dut__DOT__opcode = 0;
+    IData/*31:0*/ cpu_top_tb2__DOT__dut__DOT__rs1_rdata;
+    cpu_top_tb2__DOT__dut__DOT__rs1_rdata = 0;
+    IData/*31:0*/ cpu_top_tb2__DOT__dut__DOT__alu_a;
+    cpu_top_tb2__DOT__dut__DOT__alu_a = 0;
     IData/*31:0*/ cpu_top_tb2__DOT__dut__DOT__alu_b;
     cpu_top_tb2__DOT__dut__DOT__alu_b = 0;
     SData/*15:0*/ cpu_top_tb2__DOT__dut__DOT__mem__DOT__half0;
@@ -116,10 +127,6 @@ VL_ATTR_COLD void Vcpu_top_tb2___024root___stl_sequent__TOP__0(Vcpu_top_tb2___02
                                                      & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__pc 
                                                         >> 2U))] 
                                                     >> 0xfU));
-    vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
-        = vlSelfRef.cpu_top_tb2__DOT__dut__DOT__imem
-        [(0x3ffU & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__pc 
-                    >> 2U))];
     vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs2 = (0x1fU 
                                                  & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__imem
                                                     [
@@ -127,6 +134,9 @@ VL_ATTR_COLD void Vcpu_top_tb2___024root___stl_sequent__TOP__0(Vcpu_top_tb2___02
                                                      & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__pc 
                                                         >> 2U))] 
                                                     >> 0x14U));
+    cpu_top_tb2__DOT__dut__DOT__instruction = vlSelfRef.cpu_top_tb2__DOT__dut__DOT__imem
+        [(0x3ffU & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__pc 
+                    >> 2U))];
     vlSelfRef.cpu_top_tb2__DOT__dut__DOT__funct3 = 
         (7U & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__imem
                [(0x3ffU & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__pc 
@@ -135,10 +145,10 @@ VL_ATTR_COLD void Vcpu_top_tb2___024root___stl_sequent__TOP__0(Vcpu_top_tb2___02
                                           [(0x3ffU 
                                             & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__pc 
                                                >> 2U))]);
-    vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs1_rdata 
-        = ((0U == (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs1))
-            ? 0U : vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rf__DOT__regs
-           [vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs1]);
+    cpu_top_tb2__DOT__dut__DOT__rs1_rdata = ((0U == (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs1))
+                                              ? 0U : 
+                                             vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rf__DOT__regs
+                                             [vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs1]);
     vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs2_rdata 
         = ((0U == (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs2))
             ? 0U : vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rf__DOT__regs
@@ -152,41 +162,41 @@ VL_ATTR_COLD void Vcpu_top_tb2___024root___stl_sequent__TOP__0(Vcpu_top_tb2___02
                                ? ((2U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                    ? ((1U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                        ? (((- (IData)(
-                                                      (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                                      (cpu_top_tb2__DOT__dut__DOT__instruction 
                                                        >> 0x1fU))) 
                                            << 0x14U) 
                                           | (((0xff000U 
-                                               & vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction) 
+                                               & cpu_top_tb2__DOT__dut__DOT__instruction) 
                                               | (0x800U 
-                                                 & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                                 & (cpu_top_tb2__DOT__dut__DOT__instruction 
                                                     >> 9U))) 
                                              | (0x7feU 
-                                                & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                                & (cpu_top_tb2__DOT__dut__DOT__instruction 
                                                    >> 0x14U))))
                                        : 0U) : 0U) : 0U)
                            : ((4U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                ? ((2U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                    ? ((1U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                        ? (((- (IData)(
-                                                      (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                                      (cpu_top_tb2__DOT__dut__DOT__instruction 
                                                        >> 0x1fU))) 
                                            << 0xcU) 
-                                          | (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                          | (cpu_top_tb2__DOT__dut__DOT__instruction 
                                              >> 0x14U))
                                        : 0U) : 0U) : 
                               ((2U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                 ? ((1U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                     ? (((- (IData)(
-                                                   (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                                   (cpu_top_tb2__DOT__dut__DOT__instruction 
                                                     >> 0x1fU))) 
                                         << 0xcU) | 
-                                       ((0x800U & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                       ((0x800U & (cpu_top_tb2__DOT__dut__DOT__instruction 
                                                    << 4U)) 
                                         | ((0x7e0U 
-                                            & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                            & (cpu_top_tb2__DOT__dut__DOT__instruction 
                                                >> 0x14U)) 
                                            | (0x1eU 
-                                              & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                              & (cpu_top_tb2__DOT__dut__DOT__instruction 
                                                  >> 7U)))))
                                     : 0U) : 0U)))) : 0U)
           : ((0x20U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
@@ -196,21 +206,21 @@ VL_ATTR_COLD void Vcpu_top_tb2___024root___stl_sequent__TOP__0(Vcpu_top_tb2___02
                                ? ((2U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                    ? ((1U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                        ? (0xfffff000U 
-                                          & vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction)
+                                          & cpu_top_tb2__DOT__dut__DOT__instruction)
                                        : 0U) : 0U) : 0U))
                   : ((8U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                       ? 0U : ((4U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                ? 0U : ((2U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                         ? ((1U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                             ? (((- (IData)(
-                                                           (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                                           (cpu_top_tb2__DOT__dut__DOT__instruction 
                                                             >> 0x1fU))) 
                                                 << 0xcU) 
                                                | ((0xfe0U 
-                                                   & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                                   & (cpu_top_tb2__DOT__dut__DOT__instruction 
                                                       >> 0x14U)) 
                                                   | (0x1fU 
-                                                     & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                                     & (cpu_top_tb2__DOT__dut__DOT__instruction 
                                                         >> 7U))))
                                             : 0U) : 0U))))
               : ((0x10U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
@@ -219,15 +229,15 @@ VL_ATTR_COLD void Vcpu_top_tb2___024root___stl_sequent__TOP__0(Vcpu_top_tb2___02
                                ? ((2U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                    ? ((1U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                        ? (0xfffff000U 
-                                          & vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction)
+                                          & cpu_top_tb2__DOT__dut__DOT__instruction)
                                        : 0U) : 0U) : 
                               ((2U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                 ? ((1U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                     ? (((- (IData)(
-                                                   (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                                   (cpu_top_tb2__DOT__dut__DOT__instruction 
                                                     >> 0x1fU))) 
                                         << 0xcU) | 
-                                       (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                       (cpu_top_tb2__DOT__dut__DOT__instruction 
                                         >> 0x14U)) : 0U)
                                 : 0U))) : ((8U & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                             ? 0U : 
@@ -238,10 +248,10 @@ VL_ATTR_COLD void Vcpu_top_tb2___024root___stl_sequent__TOP__0(Vcpu_top_tb2___02
                                                   & (IData)(cpu_top_tb2__DOT__dut__DOT__opcode))
                                                   ? 
                                                  (((- (IData)(
-                                                              (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                                              (cpu_top_tb2__DOT__dut__DOT__instruction 
                                                                >> 0x1fU))) 
                                                    << 0xcU) 
-                                                  | (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__instruction 
+                                                  | (cpu_top_tb2__DOT__dut__DOT__instruction 
                                                      >> 0x14U))
                                                   : 0U)
                                               : 0U))))));
@@ -252,9 +262,9 @@ VL_ATTR_COLD void Vcpu_top_tb2___024root___stl_sequent__TOP__0(Vcpu_top_tb2___02
                                               << 7U) 
                                              | (IData)(cpu_top_tb2__DOT__dut__DOT__opcode)));
     vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_src = 
-        Vcpu_top_tb2__ConstPool__TABLE_he4914283_0[__Vtableidx1];
+        Vcpu_top_tb2__ConstPool__TABLE_h166e4241_0[__Vtableidx1];
     vlSelfRef.cpu_top_tb2__DOT__dut__DOT__reg_write 
-        = Vcpu_top_tb2__ConstPool__TABLE_hb7f1d378_0
+        = Vcpu_top_tb2__ConstPool__TABLE_he6d0abef_0
         [__Vtableidx1];
     vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_ctrl 
         = Vcpu_top_tb2__ConstPool__TABLE_h9f17eced_0
@@ -265,44 +275,84 @@ VL_ATTR_COLD void Vcpu_top_tb2___024root___stl_sequent__TOP__0(Vcpu_top_tb2___02
     vlSelfRef.cpu_top_tb2__DOT__dut__DOT__mem_write 
         = Vcpu_top_tb2__ConstPool__TABLE_h77df0047_0
         [__Vtableidx1];
-    vlSelfRef.cpu_top_tb2__DOT__dut__DOT__mem_to_reg 
-        = Vcpu_top_tb2__ConstPool__TABLE_h6eb94307_0
+    vlSelfRef.cpu_top_tb2__DOT__dut__DOT__wb_sel = 
+        Vcpu_top_tb2__ConstPool__TABLE_h6a75275c_0[__Vtableidx1];
+    vlSelfRef.cpu_top_tb2__DOT__dut__DOT__branch = 
+        Vcpu_top_tb2__ConstPool__TABLE_h0e6b8061_0[__Vtableidx1];
+    vlSelfRef.cpu_top_tb2__DOT__dut__DOT__jump = Vcpu_top_tb2__ConstPool__TABLE_h61101785_0
         [__Vtableidx1];
+    vlSelfRef.cpu_top_tb2__DOT__dut__DOT__jalr = Vcpu_top_tb2__ConstPool__TABLE_hb43972ed_0
+        [__Vtableidx1];
+    vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_a_sel 
+        = Vcpu_top_tb2__ConstPool__TABLE_heca81d36_0
+        [__Vtableidx1];
+    vlSelfRef.cpu_top_tb2__DOT__dut__DOT____VdfgRegularize_hff2ff239_0_1 
+        = (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__im_out 
+           + vlSelfRef.cpu_top_tb2__DOT__dut__DOT__pc);
     cpu_top_tb2__DOT__dut__DOT__alu_b = ((IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_src)
                                           ? vlSelfRef.cpu_top_tb2__DOT__dut__DOT__im_out
                                           : vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs2_rdata);
+    cpu_top_tb2__DOT__dut__DOT__alu_a = ((1U == (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_a_sel))
+                                          ? vlSelfRef.cpu_top_tb2__DOT__dut__DOT__pc
+                                          : ((2U == (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_a_sel))
+                                              ? 0U : cpu_top_tb2__DOT__dut__DOT__rs1_rdata));
+    vlSelfRef.cpu_top_tb2__DOT__dut__DOT__next_pc = 
+        ((IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__jump)
+          ? ((IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__jalr)
+              ? (0xfffffffeU & (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__im_out 
+                                + cpu_top_tb2__DOT__dut__DOT__rs1_rdata))
+              : vlSelfRef.cpu_top_tb2__DOT__dut__DOT____VdfgRegularize_hff2ff239_0_1)
+          : (((IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__branch) 
+              & ((4U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__funct3))
+                  ? ((2U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__funct3))
+                      ? ((1U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__funct3))
+                          ? (cpu_top_tb2__DOT__dut__DOT__rs1_rdata 
+                             >= vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs2_rdata)
+                          : (cpu_top_tb2__DOT__dut__DOT__rs1_rdata 
+                             < vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs2_rdata))
+                      : ((1U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__funct3))
+                          ? VL_GTES_III(32, cpu_top_tb2__DOT__dut__DOT__rs1_rdata, vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs2_rdata)
+                          : VL_LTS_III(32, cpu_top_tb2__DOT__dut__DOT__rs1_rdata, vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs2_rdata)))
+                  : ((1U & (~ ((IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__funct3) 
+                               >> 1U))) && ((1U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__funct3))
+                                             ? (cpu_top_tb2__DOT__dut__DOT__rs1_rdata 
+                                                != vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs2_rdata)
+                                             : (cpu_top_tb2__DOT__dut__DOT__rs1_rdata 
+                                                == vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs2_rdata)))))
+              ? vlSelfRef.cpu_top_tb2__DOT__dut__DOT____VdfgRegularize_hff2ff239_0_1
+              : ((IData)(4U) + vlSelfRef.cpu_top_tb2__DOT__dut__DOT__pc)));
     vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_result 
         = ((8U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_ctrl))
             ? ((4U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_ctrl))
                 ? 0U : ((2U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_ctrl))
                          ? 0U : ((1U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_ctrl))
-                                  ? ((vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs1_rdata 
+                                  ? ((cpu_top_tb2__DOT__dut__DOT__alu_a 
                                       < cpu_top_tb2__DOT__dut__DOT__alu_b)
                                       ? 1U : 0U) : 
-                                 (VL_LTS_III(32, vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs1_rdata, cpu_top_tb2__DOT__dut__DOT__alu_b)
+                                 (VL_LTS_III(32, cpu_top_tb2__DOT__dut__DOT__alu_a, cpu_top_tb2__DOT__dut__DOT__alu_b)
                                    ? 1U : 0U)))) : 
            ((4U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_ctrl))
              ? ((2U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_ctrl))
                  ? ((1U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_ctrl))
-                     ? VL_SHIFTRS_III(32,32,5, vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs1_rdata, 
+                     ? VL_SHIFTRS_III(32,32,5, cpu_top_tb2__DOT__dut__DOT__alu_a, 
                                       (0x1fU & cpu_top_tb2__DOT__dut__DOT__alu_b))
-                     : (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs1_rdata 
+                     : (cpu_top_tb2__DOT__dut__DOT__alu_a 
                         >> (0x1fU & cpu_top_tb2__DOT__dut__DOT__alu_b)))
                  : ((1U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_ctrl))
-                     ? (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs1_rdata 
+                     ? (cpu_top_tb2__DOT__dut__DOT__alu_a 
                         << (0x1fU & cpu_top_tb2__DOT__dut__DOT__alu_b))
-                     : (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs1_rdata 
+                     : (cpu_top_tb2__DOT__dut__DOT__alu_a 
                         ^ cpu_top_tb2__DOT__dut__DOT__alu_b)))
              : ((2U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_ctrl))
                  ? ((1U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_ctrl))
-                     ? (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs1_rdata 
+                     ? (cpu_top_tb2__DOT__dut__DOT__alu_a 
                         | cpu_top_tb2__DOT__dut__DOT__alu_b)
-                     : (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs1_rdata 
+                     : (cpu_top_tb2__DOT__dut__DOT__alu_a 
                         & cpu_top_tb2__DOT__dut__DOT__alu_b))
                  : ((1U & (IData)(vlSelfRef.cpu_top_tb2__DOT__dut__DOT__alu_ctrl))
-                     ? (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs1_rdata 
+                     ? (cpu_top_tb2__DOT__dut__DOT__alu_a 
                         - cpu_top_tb2__DOT__dut__DOT__alu_b)
-                     : (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__rs1_rdata 
+                     : (cpu_top_tb2__DOT__dut__DOT__alu_a 
                         + cpu_top_tb2__DOT__dut__DOT__alu_b)))));
     cpu_top_tb2__DOT__dut__DOT__mem__DOT__half0 = (
                                                    (vlSelfRef.cpu_top_tb2__DOT__dut__DOT__mem__DOT__mem
@@ -422,10 +472,10 @@ VL_ATTR_COLD void Vcpu_top_tb2___024root___ctor_var_reset(Vcpu_top_tb2___024root
     vlSelf->cpu_top_tb2__DOT__clk = VL_RAND_RESET_I(1);
     vlSelf->cpu_top_tb2__DOT__rst = VL_RAND_RESET_I(1);
     vlSelf->cpu_top_tb2__DOT__dut__DOT__pc = VL_RAND_RESET_I(32);
+    vlSelf->cpu_top_tb2__DOT__dut__DOT__next_pc = VL_RAND_RESET_I(32);
     for (int __Vi0 = 0; __Vi0 < 1024; ++__Vi0) {
         vlSelf->cpu_top_tb2__DOT__dut__DOT__imem[__Vi0] = VL_RAND_RESET_I(32);
     }
-    vlSelf->cpu_top_tb2__DOT__dut__DOT__instruction = VL_RAND_RESET_I(32);
     vlSelf->cpu_top_tb2__DOT__dut__DOT__rd = VL_RAND_RESET_I(5);
     vlSelf->cpu_top_tb2__DOT__dut__DOT__funct3 = VL_RAND_RESET_I(3);
     vlSelf->cpu_top_tb2__DOT__dut__DOT__rs1 = VL_RAND_RESET_I(5);
@@ -434,13 +484,17 @@ VL_ATTR_COLD void Vcpu_top_tb2___024root___ctor_var_reset(Vcpu_top_tb2___024root
     vlSelf->cpu_top_tb2__DOT__dut__DOT__alu_src = VL_RAND_RESET_I(1);
     vlSelf->cpu_top_tb2__DOT__dut__DOT__mem_read = VL_RAND_RESET_I(1);
     vlSelf->cpu_top_tb2__DOT__dut__DOT__mem_write = VL_RAND_RESET_I(1);
-    vlSelf->cpu_top_tb2__DOT__dut__DOT__mem_to_reg = VL_RAND_RESET_I(1);
+    vlSelf->cpu_top_tb2__DOT__dut__DOT__branch = VL_RAND_RESET_I(1);
+    vlSelf->cpu_top_tb2__DOT__dut__DOT__jump = VL_RAND_RESET_I(1);
+    vlSelf->cpu_top_tb2__DOT__dut__DOT__jalr = VL_RAND_RESET_I(1);
     vlSelf->cpu_top_tb2__DOT__dut__DOT__alu_ctrl = VL_RAND_RESET_I(4);
+    vlSelf->cpu_top_tb2__DOT__dut__DOT__wb_sel = VL_RAND_RESET_I(2);
+    vlSelf->cpu_top_tb2__DOT__dut__DOT__alu_a_sel = VL_RAND_RESET_I(2);
     vlSelf->cpu_top_tb2__DOT__dut__DOT__im_out = VL_RAND_RESET_I(32);
-    vlSelf->cpu_top_tb2__DOT__dut__DOT__rs1_rdata = VL_RAND_RESET_I(32);
     vlSelf->cpu_top_tb2__DOT__dut__DOT__rs2_rdata = VL_RAND_RESET_I(32);
     vlSelf->cpu_top_tb2__DOT__dut__DOT__alu_result = VL_RAND_RESET_I(32);
     vlSelf->cpu_top_tb2__DOT__dut__DOT__mem_rdata = VL_RAND_RESET_I(32);
+    vlSelf->cpu_top_tb2__DOT__dut__DOT____VdfgRegularize_hff2ff239_0_1 = VL_RAND_RESET_I(32);
     for (int __Vi0 = 0; __Vi0 < 32; ++__Vi0) {
         vlSelf->cpu_top_tb2__DOT__dut__DOT__rf__DOT__regs[__Vi0] = VL_RAND_RESET_I(32);
     }

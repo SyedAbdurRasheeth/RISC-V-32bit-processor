@@ -10,12 +10,15 @@ core/alu.v
 core/imgen.v
 core/control_unit.v
 core/data_mem.v
+core/branch_comp.v
 "
 
 TESTS=(
     "cpu_top_tb:cpu_top_test1"
     "cpu_top_tb2:cpu_top_test2"
     "loadstore_tb:loadstore"
+    "branch_tb:branch_test"
+    "jump_test_tb":"jump_test"
 )
 
 echo "=========================================="
