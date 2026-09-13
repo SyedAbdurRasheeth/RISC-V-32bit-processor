@@ -10,12 +10,14 @@ module  data_mem(
     output reg  [31:0]rdata 
 );
 
-   reg[7:0] mem[0:4095];
+    reg[7:0] mem[0:4095];
+    wire [31:0] mem_addr = addr - 32'h00001000; 
+    integer i;
+    initial begin
+        for(i = 0; i < 4096; i = i+1 )
+            mem[i] = 8'd0;
 
-   integer i;
-   initial begin
-    for(i = 0; i < 4096; i = i+1 )
-        mem[i] = 8'd0;
+        $readmemh("data_init.hex", mem);
     end
 
 
@@ -26,19 +28,19 @@ module  data_mem(
             case (funct3)
 
                 3'b000 : begin //SB
-                    mem[addr] <= wdata[7:0];
+                    mem[mem_addr] <= wdata[7:0];
                 end 
 
                 3'b001 : begin //SH
-                    mem[addr] <= wdata[7:0];
-                    mem[addr+1] <= wdata[15:8];
+                    mem[mem_addr] <= wdata[7:0];
+                    mem[mem_addr+1] <= wdata[15:8];
                 end
 
                 3'b010 : begin //SW
-                    mem[addr] <= wdata[7:0];
-                    mem[addr+1] <= wdata[15:8];
-                    mem[addr+2] <= wdata[23:16];
-                    mem[addr+3] <= wdata[31:24];
+                    mem[mem_addr] <= wdata[7:0];
+                    mem[mem_addr+1] <= wdata[15:8];
+                    mem[mem_addr+2] <= wdata[23:16];
+                    mem[mem_addr+3] <= wdata[31:24];
                 end
 
 
@@ -51,9 +53,9 @@ module  data_mem(
     // READ
 
 
-    wire [7:0]  byte0 = mem[addr];
-    wire [15:0] half0 = {mem[addr+1], mem[addr]};
-    wire [31:0] word0 = {mem[addr+3], mem[addr+2],mem[addr+1], mem[addr]};
+    wire [7:0]  byte0 = mem[mem_addr];
+    wire [15:0] half0 = {mem[mem_addr+1], mem[mem_addr]};
+    wire [31:0] word0 = {mem[mem_addr+3], mem[mem_addr+2],mem[mem_addr+1], mem[mem_addr]};
 
     always @(*) begin
         rdata = 32'd0;

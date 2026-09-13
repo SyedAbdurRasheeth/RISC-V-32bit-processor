@@ -3,7 +3,7 @@ ENTRY(_start)
 MEMORY
 {
     IMEM (rx)  : ORIGIN = 0x00000000, LENGTH = 4K
-    DMEM (rw)  : ORIGIN = 0x00000000, LENGTH = 4K
+    DMEM (rw)  : ORIGIN = 0x00001000, LENGTH = 4K
 }
 
 SECTIONS
@@ -17,12 +17,16 @@ SECTIONS
     .data : {
         *(.data)
         *(.data.*)
+        *(.rodata)
+        *(.rodata.*)
     } > DMEM
 
     .bss : {
         __bss_start = .;
         *(.bss)
         *(.bss.*)
+        *(.sbss)
+        *(.sbss.*)
         __bss_end = .;
     } > DMEM
 
