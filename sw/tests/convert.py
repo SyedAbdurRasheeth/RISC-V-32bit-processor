@@ -1,20 +1,46 @@
-
+#!/usr/bin/env python3
 import sys
+import subprocess
 
-# Default values
-input_file = "cpu_top_test1.bin"
-output_file = "program.hex"
+def section_to_hex(elf_path, section, hex_path, size_bytes):
+    bin_path = elf_path + f".{section}.bin"
 
-# Override defaults if arguments are provided
-if len(sys.argv) >= 2:
-    input_file = sys.argv[1]
+    subprocess.run([
+        "riscv32-unknown-elf-objcopy",
+        "-O", "binary",
+        f"--only-section={section}",
+        elf_path,
+        bin_path
+    ], check=True)
 
-if len(sys.argv) >= 3:
-    output_file = sys.argv[2]
+    try:
+        with open(bin_path, "rb") as f:
+            data = f.read()
+    except FileNotFoundError:
+        data = b""
 
-data = open(input_file, 'rb').read()
+    # Pad to full memory size
+    if len(data) < size_bytes:
+        data += b'\x00' * (size_bytes - len(data))
 
-with open(output_file, 'w') as f:
-    for i in range(0, len(data), 4):
-        word = int.from_bytes(data[i:i+4], byteorder="little")
-        f.write(f"{word:08x}\n")
+    data = data[:size_bytes]
+
+    with open(hex_path, "w") as out:
+        for i in range(0, len(data), 4):
+            word = data[i:i+4]
+            val = int.from_bytes(word, byteorder="little")
+            out.write(f"{val:08x}\n")
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python3 convert.py <program.elf>")
+        sys.exit(1)
+
+    elf_path = sys.argv[1]
+
+    section_to_hex(elf_path, ".text", "program.hex", 4096)
+    section_to_hex(elf_path, ".data", "data_init.hex", 4096)
+
+    print("Created program.hex")
+    print("Created data_init.hex")
