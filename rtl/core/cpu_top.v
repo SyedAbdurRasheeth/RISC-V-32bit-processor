@@ -2,7 +2,10 @@
 
 module cpu_top(
     input clk,
-    input rst
+    input rst,
+    output wire        debug_char_valid,
+    output wire [7:0]  debug_char,
+    output reg [3:0] led_out
 );
 
     `ifndef PROGRAM_FILE
@@ -119,7 +122,21 @@ module cpu_top(
 
     wire [31:0] jump_target = jalr ? ((rs1_rdata + im_out) & 32'hFFFFFFFE)  : (pc +im_out);
     assign next_pc = jump ? jump_target : ((branch && branch_taken) ? (pc + im_out) : (pc + 32'd4));
+ 
+    // DEBUG FAKE UART
+    localparam DEBUG_ADDR = 32'hF0000000;
+    assign debug_char_valid = mem_write && (alu_result == DEBUG_ADDR);
+    assign debug_char       = rs2_rdata[7:0];
 
+    localparam LED_ADDR = 32'hE0000000;
+    always @(posedge clk or posedge rst) begin
+        if (rst)
+            led_out <= 4'b0000;
+        else if (mem_write && (alu_result == LED_ADDR))
+            led_out <= rs2_data[3:0];  // only 4 LEDs available, take lowest 4 bits
+    end
+
+    wire real_mem_write = mem_write && (alu_result != DEBUG_ADDR) && (alu_result != LED_ADDR);
 
     wire[31:0] mem_rdata;
     data_mem mem(
@@ -127,7 +144,7 @@ module cpu_top(
         .addr(alu_result),
         .wdata(rs2_rdata),
         .mem_read(mem_read),
-        .mem_write(mem_write),
+        .mem_write(real_mem_write),
         .funct3(funct3),
         .rdata(mem_rdata) 
     ); 
