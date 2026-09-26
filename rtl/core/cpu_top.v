@@ -5,7 +5,10 @@ module cpu_top(
     input rst,
     output wire        debug_char_valid,
     output wire [7:0]  debug_char,
-    output reg [3:0] led_out
+    output reg  [3:0]  led_out,
+    output wire [14:0] fb_waddr,
+    output wire [7:0]  fb_wdata,
+    output wire        fb_we
 );
 
     `ifndef PROGRAM_FILE
@@ -125,18 +128,31 @@ module cpu_top(
  
     // DEBUG FAKE UART
     localparam DEBUG_ADDR = 32'hF0000000;
+    localparam LED_ADDR = 32'hE0000000;
+
     assign debug_char_valid = mem_write && (alu_result == DEBUG_ADDR);
     assign debug_char       = rs2_rdata[7:0];
-
-    localparam LED_ADDR = 32'hE0000000;
+    
+  
     always @(posedge clk or posedge rst) begin
         if (rst)
             led_out <= 4'b0000;
         else if (mem_write && (alu_result == LED_ADDR))
-            led_out <= rs2_data[3:0];  // only 4 LEDs available, take lowest 4 bits
+            led_out <= rs2_rdata[3:0];  // only 4 LEDs available, take lowest 4 bits
     end
 
-    wire real_mem_write = mem_write && (alu_result != DEBUG_ADDR) && (alu_result != LED_ADDR);
+    // VGA DISPLAY 
+    
+    localparam FB_BASE = 32'h10000000;
+    localparam FB_TOP  = 32'h10004AFF; // FB_BASE + 19200 - 1 (approx, byte range)
+
+    wire is_fb_write =mem_write && (alu_result >= FB_BASE) && (alu_result <= FB_TOP);
+    
+    assign fb_we    = is_fb_write;
+    assign fb_waddr = alu_result[14:0] - FB_BASE[14:0]; 
+    assign fb_wdata = rs2_rdata[7:0];
+
+    wire real_mem_write = mem_write && (alu_result != DEBUG_ADDR) && (alu_result != LED_ADDR)  && !is_fb_write;;
 
     wire[31:0] mem_rdata;
     data_mem mem(
