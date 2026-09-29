@@ -23,19 +23,11 @@ module framebuffer(
     always @(posedge wclk) begin
         if (we) begin
             mem[waddr] <= wdata;
-
-            $display("FRAMEBUFFER ACTUAL WRITE: addr=%0d data=%02x",
-                    waddr, wdata);
+            
         end
     end
 
-    always @(posedge wclk) begin
-        if (we && (waddr == 9680 || waddr == 9681)) begin
-            #1;
-            $display("FRAMEBUFFER AFTER WRITE: addr=%0d mem=%02x",
-                    waddr, mem[waddr]);
-        end
-    end
+    
 
     always @(posedge rclk) begin
         rdata <= mem[raddr];

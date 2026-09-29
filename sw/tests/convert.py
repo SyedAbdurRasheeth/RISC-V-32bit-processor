@@ -33,15 +33,73 @@ def text_to_hex(elf_path, hex_path, size_bytes):
 
 
 def data_to_hex(elf_path, hex_path, size_bytes):
-    data = extract_section(elf_path, ".data")
+    # DMEM starts at address 0x1000.
+    # Put each ELF section at its correct address inside DMEM.
 
-    data = data[:size_bytes]
+    dmem = bytearray(size_bytes)
 
-    if len(data) < size_bytes:
-        data += b'\x00' * (size_bytes - len(data))
+    sections = [
+        (".data",   0x1000),
+        (".sdata",  0x1014),
+        (".rodata", 0x1000),
+        (".srodata", 0x1000),
+    ]
+
+    for section, default_addr in sections:
+        try:
+            data = extract_section(elf_path, section)
+        except subprocess.CalledProcessError:
+            continue
+
+        if len(data) == 0:
+            continue
+
+        # Get the section address from objdump/readelf.
+        result = subprocess.run(
+            [
+                "riscv32-unknown-elf-readelf",
+                "-S",
+                elf_path
+            ],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+
+        section_addr = None
+
+        for line in result.stdout.splitlines():
+            if f"] {section}" in line:
+                fields = line.split()
+
+                # Typical format:
+                # [ 2] .data PROGBITS 00001000 ...
+                for i, field in enumerate(fields):
+                    if field == section and i + 2 < len(fields):
+                        section_addr = int(fields[i + 2], 16)
+                        break
+
+        if section_addr is None:
+            section_addr = default_addr
+
+        offset = section_addr - 0x1000
+
+        if offset < 0 or offset >= size_bytes:
+            continue
+
+        end = min(offset + len(data), size_bytes)
+
+        dmem[offset:end] = data[:end - offset]
+
+        print(
+            f"Loaded {section}: "
+            f"address=0x{section_addr:08x}, "
+            f"DMEM offset=0x{offset:03x}, "
+            f"size={len(data)}"
+        )
 
     with open(hex_path, "w") as out:
-        for byte in data:
+        for byte in dmem:
             out.write(f"{byte:02x}\n")
 
 

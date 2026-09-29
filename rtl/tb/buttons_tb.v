@@ -64,7 +64,7 @@ module buttons_tb;
         btnR = 1;
 
         // Hold button long enough for debounce + CPU
-        for (i = 0; i < 600000; i = i + 1)
+        for (i = 0; i < 26000; i = i + 1)
             @(posedge clk_100mhz);
 
         

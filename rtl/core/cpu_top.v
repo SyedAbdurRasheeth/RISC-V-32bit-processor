@@ -4,6 +4,7 @@ module cpu_top(
     input clk,
     input rst,
     input wire [3:0] buttons,
+    input wire [7:0] frame_count,
 
     output wire        debug_char_valid,
     output wire [7:0]  debug_char,
@@ -138,7 +139,7 @@ module cpu_top(
     localparam FB_BASE    = 32'h10000000;
     localparam FB_TOP     = 32'h10004AFF;
     localparam BUTTON_ADDR = 32'h20000000;
-
+    localparam FRAME_COUNT_ADDR = 32'h20000004;
 
     
     // DEBUG UART
@@ -166,20 +167,6 @@ module cpu_top(
 
     wire is_fb_write = mem_write && (alu_result >= FB_BASE) && (alu_result <= FB_TOP);
 
-    always @(posedge clk) begin
-        if (!rst && is_fb_write) begin
-            $display("REAL FB WRITE: pc=%08x alu=%08x fb_we=%b fb_waddr=%0d (%08x) fb_wdata=%02x",
-                    pc,
-                    alu_result,
-                    fb_we,
-                    fb_waddr,
-                    fb_waddr,
-                    fb_wdata);
-        end
-    end
-
-    
-    
 
     assign fb_we    = is_fb_write;
     assign fb_waddr = alu_result[14:0] - FB_BASE[14:0];
@@ -189,10 +176,7 @@ module cpu_top(
     
     // REAL DATA MEMORY WRITE
 
-
     wire real_mem_write = mem_write && (alu_result != DEBUG_ADDR) && (alu_result != LED_ADDR) && !is_fb_write;
-
-
 
     // DATA MEMORY
 
@@ -209,17 +193,13 @@ module cpu_top(
         .rdata(mem_rdata)
     );
 
-
-
     // BUTTON INPUT
 
 
     wire is_button_read = mem_read && (alu_result == BUTTON_ADDR);
+    wire is_frame_read  = mem_read && (alu_result == FRAME_COUNT_ADDR);
 
-    
-
-    wire [31:0] mem_rdata_actual =  is_button_read ? {28'd0, buttons} : mem_rdata;
-
+    wire [31:0] mem_rdata_actual = is_button_read ? {28'd0, buttons} :is_frame_read  ? {24'd0, frame_count} : mem_rdata;
 
 
     // WRITEBACK
