@@ -3,12 +3,15 @@
 module cpu_top(
     input clk,
     input rst,
+    input wire [3:0] buttons,
+
     output wire        debug_char_valid,
     output wire [7:0]  debug_char,
     output reg  [3:0]  led_out,
     output wire [14:0] fb_waddr,
     output wire [7:0]  fb_wdata,
     output wire        fb_we
+
 );
 
     `ifndef PROGRAM_FILE
@@ -126,35 +129,76 @@ module cpu_top(
     wire [31:0] jump_target = jalr ? ((rs1_rdata + im_out) & 32'hFFFFFFFE)  : (pc +im_out);
     assign next_pc = jump ? jump_target : ((branch && branch_taken) ? (pc + im_out) : (pc + 32'd4));
  
-    // DEBUG FAKE UART
-    localparam DEBUG_ADDR = 32'hF0000000;
-    localparam LED_ADDR = 32'hE0000000;
+  
+    // MEMORY-MAPPED I/O ADDRESSES
+ 
+
+    localparam DEBUG_ADDR  = 32'hF0000000;
+    localparam LED_ADDR    = 32'hE0000000;
+    localparam FB_BASE    = 32'h10000000;
+    localparam FB_TOP     = 32'h10004AFF;
+    localparam BUTTON_ADDR = 32'h20000000;
+
+
+    
+    // DEBUG UART
+
 
     assign debug_char_valid = mem_write && (alu_result == DEBUG_ADDR);
     assign debug_char       = rs2_rdata[7:0];
-    
+
+
   
+    // LED OUTPUT
+  
+
     always @(posedge clk or posedge rst) begin
         if (rst)
             led_out <= 4'b0000;
         else if (mem_write && (alu_result == LED_ADDR))
-            led_out <= rs2_rdata[3:0];  // only 4 LEDs available, take lowest 4 bits
+            led_out <= rs2_rdata[3:0];
     end
 
-    // VGA DISPLAY 
-    
-    localparam FB_BASE = 32'h10000000;
-    localparam FB_TOP  = 32'h10004AFF; // FB_BASE + 19200 - 1 (approx, byte range)
 
-    wire is_fb_write =mem_write && (alu_result >= FB_BASE) && (alu_result <= FB_TOP);
+
+    // FRAMEBUFFER
+
+
+    wire is_fb_write = mem_write && (alu_result >= FB_BASE) && (alu_result <= FB_TOP);
+
+    always @(posedge clk) begin
+        if (!rst && is_fb_write) begin
+            $display("REAL FB WRITE: pc=%08x alu=%08x fb_we=%b fb_waddr=%0d (%08x) fb_wdata=%02x",
+                    pc,
+                    alu_result,
+                    fb_we,
+                    fb_waddr,
+                    fb_waddr,
+                    fb_wdata);
+        end
+    end
+
     
+    
+
     assign fb_we    = is_fb_write;
-    assign fb_waddr = alu_result[14:0] - FB_BASE[14:0]; 
+    assign fb_waddr = alu_result[14:0] - FB_BASE[14:0];
     assign fb_wdata = rs2_rdata[7:0];
+    
 
-    wire real_mem_write = mem_write && (alu_result != DEBUG_ADDR) && (alu_result != LED_ADDR)  && !is_fb_write;;
+    
+    // REAL DATA MEMORY WRITE
 
-    wire[31:0] mem_rdata;
+
+    wire real_mem_write = mem_write && (alu_result != DEBUG_ADDR) && (alu_result != LED_ADDR) && !is_fb_write;
+
+
+
+    // DATA MEMORY
+
+
+    wire [31:0] mem_rdata;
+
     data_mem mem(
         .clk(clk),
         .addr(alu_result),
@@ -162,11 +206,26 @@ module cpu_top(
         .mem_read(mem_read),
         .mem_write(real_mem_write),
         .funct3(funct3),
-        .rdata(mem_rdata) 
-    ); 
+        .rdata(mem_rdata)
+    );
+
+
+
+    // BUTTON INPUT
+
+
+    wire is_button_read = mem_read && (alu_result == BUTTON_ADDR);
 
     
-    assign rd_wdata = (wb_sel == 2'b01) ? mem_rdata :(wb_sel == 2'b10) ? (pc + 32'd4) : alu_result;
+
+    wire [31:0] mem_rdata_actual =  is_button_read ? {28'd0, buttons} : mem_rdata;
+
+
+
+    // WRITEBACK
+
+
+    assign rd_wdata = (wb_sel == 2'b01) ? mem_rdata_actual :(wb_sel == 2'b10) ? (pc + 32'd4) : alu_result;
     
     
 
